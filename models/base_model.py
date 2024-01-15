@@ -4,7 +4,7 @@ Module for the BaseModel class.
 """
 from datetime import datetime
 import uuid
-
+import models
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -22,15 +22,14 @@ class BaseModel:
                     setattr(self, key, datetime.strptime(value, time_format))
                 else:
                     setattr(self,key, value)
-
-
+    models.storage.new(self)
 
     def save(self):
         """Updates the updated_at attribute
         with the current datetime."""
 
         self.updated_at = datetime.now()
-
+        models.storage.save()
 
     def to_dict(self):
          """Returns a dictionary representation of an instance."""
